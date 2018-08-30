@@ -2,6 +2,11 @@ package com.vincent.high.performance;
 
 
 import android.app.Application;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkRequest;
+import android.os.Build;
 
 public class PerformanceApplication  extends Application{
     @Override
@@ -41,5 +46,25 @@ public class PerformanceApplication  extends Application{
     public void onLowMemory() {
         super.onLowMemory();
 
+    }
+
+    private void registNetWorkCallback() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            NetworkRequest.Builder builder = new NetworkRequest.Builder();
+            NetworkRequest request = builder.build();
+            ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            connectivityManager.registerNetworkCallback(request, new ConnectivityManager.NetworkCallback() {
+
+                @Override
+                public void onAvailable(Network network) {
+                    super.onAvailable(network);
+                }
+
+                @Override
+                public void onLost(Network network) {
+                    super.onLost(network);
+                }
+            });
+        }
     }
 }

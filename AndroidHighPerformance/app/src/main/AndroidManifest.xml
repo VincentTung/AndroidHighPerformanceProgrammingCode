@@ -23,6 +23,12 @@
             </intent-filter>
         </activity>
 
+        <receiver android:name=".network.NetWorkChangeReceiver">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
         <!-- 电量变化监听-->
         <receiver android:name=".battery.BatteryLevelBroadcastReceiver">
             <intent-filter>
