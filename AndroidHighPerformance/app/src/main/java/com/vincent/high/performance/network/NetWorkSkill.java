@@ -6,6 +6,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.telephony.TelephonyManager;
 
 public class NetWorkSkill {
 
@@ -21,6 +22,7 @@ public class NetWorkSkill {
 
     /**
      * 是否是wifi
+     *
      * @param context
      * @return
      */
@@ -33,6 +35,7 @@ public class NetWorkSkill {
 
     /**
      * 获取wifi速度
+     *
      * @param context
      * @return
      */
@@ -51,6 +54,39 @@ public class NetWorkSkill {
             return 0;
         }
 
-
     }
+
+    /**
+     * 网络连接类型
+     *
+     * @param context
+     */
+    public static void checkNetWorkState(Context context) {
+        ConnectivityManager cm = (ConnectivityManager)
+                context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        TelephonyManager tm = (TelephonyManager)
+                context.getSystemService(Context.TELEPHONY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        switch (activeNetwork.getType()) {
+            case (ConnectivityManager.TYPE_WIFI):
+                // apply standard latency strategy
+                break;
+            case (ConnectivityManager.TYPE_MOBILE): {
+                switch (tm.getNetworkType()) {
+                    case (TelephonyManager.NETWORK_TYPE_LTE):
+                        // apply higher latency strategy
+                        break;
+                    case (TelephonyManager.NETWORK_TYPE_GPRS):
+                        // apply lower latency strategy
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            }
+            default:
+                break;
+        }
+    }
+
 }

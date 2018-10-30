@@ -79,7 +79,7 @@ public class MemorySkills {
 
 
         ActivityManager.RunningAppProcessInfo  runningAppProcessInfo = new ActivityManager.RunningAppProcessInfo();
-        am.getMyMemoryState(runningAppProcessInfo);
+        ActivityManager.getMyMemoryState(runningAppProcessInfo);
 
         int lastTrimLevel = runningAppProcessInfo.lastTrimLevel;
         int importance = runningAppProcessInfo.importance;

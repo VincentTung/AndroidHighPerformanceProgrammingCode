@@ -1,6 +1,9 @@
 package com.vincent.high.performance.activity;
 
+import android.content.ComponentCallbacks;
+import android.content.ComponentCallbacks2;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -25,6 +28,24 @@ public class MainActivity extends BaseActivity implements OnNewsSelected, View.O
         }, 100000);
 
         findViewById(R.id.btn_battery).setOnClickListener(this);
+
+
+        registerComponentCallbacks(new ComponentCallbacks2() {
+            @Override
+            public void onTrimMemory(int level) {
+
+            }
+
+            @Override
+            public void onConfigurationChanged(Configuration newConfig) {
+
+            }
+
+            @Override
+            public void onLowMemory() {
+
+            }
+        });
     }
 
     @Override
