@@ -6,7 +6,12 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.telephony.TelephonyManager;
+
+import static android.net.ConnectivityManager.RESTRICT_BACKGROUND_STATUS_DISABLED;
+import static android.net.ConnectivityManager.RESTRICT_BACKGROUND_STATUS_ENABLED;
+import static android.net.ConnectivityManager.RESTRICT_BACKGROUND_STATUS_WHITELISTED;
 
 public class NetWorkSkill {
 
@@ -89,4 +94,38 @@ public class NetWorkSkill {
         }
     }
 
+    /**
+     *
+     * @param context
+     */
+    public static void checkDataServerState(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            ConnectivityManager connectionManager = (ConnectivityManager)
+                    context.getSystemService(Context.CONNECTIVITY_SERVICE);
+                    // Checks if the active network is a metered one
+            if (connectionManager.isActiveNetworkMetered()) {
+                // Checks user's Data Saver preference.
+
+                switch (connectionManager.getRestrictBackgroundStatus()) {
+                    case RESTRICT_BACKGROUND_STATUS_ENABLED:
+                        // Data Saver is enabled and, then, the application shouldn't use the network in background
+                        break;
+                    case RESTRICT_BACKGROUND_STATUS_WHITELISTED:
+                        // Networking
+
+                        // Data Saver is enabled, but the application is
+                        //whitelisted. The application should limit
+                        //the network request while the Data Saver
+                        //is enabled even if the application is whitelisted
+                        break;
+                    case RESTRICT_BACKGROUND_STATUS_DISABLED:
+                        // Data Saver is disabled
+                        break;
+                }
+            }
+        } else {
+            // The active network is not a metered one.
+                // Any network request can be done
+        }
+    }
 }

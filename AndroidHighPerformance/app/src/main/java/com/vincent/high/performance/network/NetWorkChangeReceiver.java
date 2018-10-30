@@ -58,4 +58,5 @@ public class NetWorkChangeReceiver extends BroadcastReceiver {
         checkNetState(context);
     }
 
+
 }
